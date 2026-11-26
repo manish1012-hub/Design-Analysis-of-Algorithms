@@ -1,0 +1,83 @@
+==============================================================================
+INTELLIGENT COURIER PLANNING SYSTEM — Medium City Courier Network (80 Parcels, 25 Stops)
+==============================================================================
+
+[PHASE 2A] PARCEL PRIORITIZATION (Sorted by Deadline ASC, Priority DESC, Value/Kg DESC)
+Total Input Parcels: 80
+Rank  ID     Dest          Wt(kg)   Value  Deadline Priority
+--------------------------------------------------------------
+1     P012   Stop_13            3     174     2.0h        5
+2     P028   Stop_05            5     240     2.0h        5
+3     P004   Stop_01           15     320     2.0h        5
+4     P027   Stop_23           14     260     2.0h        5
+5     P055   Stop_04           17     553     2.0h        4
+6     P068   Stop_22           14     408     2.0h        4
+7     P006   Stop_01            7     199     2.0h        4
+8     P041   Stop_01            7     301     2.0h        3
+9     P038   Stop_06           18     318     2.0h        3
+10    P025   Stop_05           14     222     2.0h        3
+11    P063   Stop_11            5     167     2.0h        2
+12    P011   Stop_06           17     496     2.0h        2
+13    P029   Stop_02           14     332     2.0h        2
+14    P051   Stop_16            7     121     2.0h        2
+15    P039   Stop_12            9     300     2.0h        1
+16    P010   Stop_17           11     353     2.0h        1
+17    P017   Stop_03           11     297     2.0h        1
+18    P023   Stop_07           10     430     4.0h        5
+19    P013   Stop_20            4     165     4.0h        5
+20    P067   Stop_09           18     561     4.0h        5
+... (60 additional parcels omitted from preview)
+
+[PHASE 2B] BOX FILLING & PACKAGE SELECTION (0/1 Knapsack (2D DP))
+Capacity: 120 kg | Used: 120 kg (100.0%) | Optimal Total Value: 5122
+Selected Parcels (18): P012->Stop_13(3kg/$174), P028->Stop_05(5kg/$240), P041->Stop_01(7kg/$301), P023->Stop_07(10kg/$430), P013->Stop_20(4kg/$165), P016->Stop_15(9kg/$365), P058->Stop_15(18kg/$722), P005->Stop_16(3kg/$121), P066->Stop_18(1kg/$87), P052->Stop_23(3kg/$152), P036->Stop_03(1kg/$54), P001->Stop_04(4kg/$158), P057->Stop_14(11kg/$481), P031->Stop_08(18kg/$678), P009->Stop_24(2kg/$103), P042->Stop_12(17kg/$665), P014->Stop_11(3kg/$186), P054->Stop_06(1kg/$40)
+Deferred Parcels (62): P004, P027, P055, P068, P006, P038, P025, P063, P011, P029, P051, P039, P010, P017, P067 ...
+
+[PHASE 3] GRAPH PROCESSING & ROUTE OPTIMIZATION (Nearest-Neighbor TSP + 2-Opt Optimization)
+Customer Network: 25 nodes, 49 roads | Depot: Depot
+Shortest Paths from Depot (Dijkstra):
+  Depot -> Stop_01    :  155.5 km | Path: Depot -> Stop_14 -> Stop_24 -> Stop_23 -> Stop_01
+  Depot -> Stop_03    :   50.0 km | Path: Depot -> Stop_11 -> Stop_03
+  Depot -> Stop_04    :  143.8 km | Path: Depot -> Stop_14 -> Stop_04
+  Depot -> Stop_05    :  139.4 km | Path: Depot -> Stop_11 -> Stop_03 -> Stop_05
+  Depot -> Stop_06    :  222.9 km | Path: Depot -> Stop_14 -> Stop_24 -> Stop_17 -> Stop_06
+  Depot -> Stop_07    :   57.1 km | Path: Depot -> Stop_07
+  Depot -> Stop_08    :   73.6 km | Path: Depot -> Stop_16 -> Stop_08
+  Depot -> Stop_11    :   41.1 km | Path: Depot -> Stop_11
+  Depot -> Stop_12    :  121.4 km | Path: Depot -> Stop_11 -> Stop_03 -> Stop_12
+  Depot -> Stop_13    :  159.4 km | Path: Depot -> Stop_14 -> Stop_13
+  Depot -> Stop_14    :   60.8 km | Path: Depot -> Stop_14
+  Depot -> Stop_15    :  169.4 km | Path: Depot -> Stop_07 -> Stop_02 -> Stop_18 -> Stop_15
+  Depot -> Stop_16    :   44.0 km | Path: Depot -> Stop_16
+  Depot -> Stop_18    :  119.4 km | Path: Depot -> Stop_07 -> Stop_02 -> Stop_18
+  Depot -> Stop_20    :  173.6 km | Path: Depot -> Stop_07 -> Stop_09 -> Stop_20
+  Depot -> Stop_23    :   85.8 km | Path: Depot -> Stop_14 -> Stop_24 -> Stop_23
+  Depot -> Stop_24    :   79.9 km | Path: Depot -> Stop_14 -> Stop_24
+
+Ordered Delivery Route Sequence:
+  Depot -> Stop_16 -> Stop_08 -> Stop_07 -> Stop_18 -> Stop_24 -> Stop_23 -> Stop_14 -> Stop_04 -> Stop_06 -> Stop_13 -> Stop_15 -> Stop_20 -> Stop_01 -> Stop_12 -> Stop_03 -> Stop_11 -> Stop_05 -> Depot
+
+Turn-by-Turn Road Segments:
+  Leg 01: Depot -> Stop_16 (44.0 km) via [Depot -> Stop_16]
+  Leg 02: Stop_16 -> Stop_08 (29.6 km) via [Stop_16 -> Stop_08]
+  Leg 03: Stop_08 -> Stop_07 (83.2 km) via [Stop_08 -> Stop_07]
+  Leg 04: Stop_07 -> Stop_18 (62.3 km) via [Stop_07 -> Stop_02 -> Stop_18]
+  Leg 05: Stop_18 -> Stop_24 (44.0 km) via [Stop_18 -> Stop_24]
+  Leg 06: Stop_24 -> Stop_23 (5.9 km) via [Stop_24 -> Stop_23]
+  Leg 07: Stop_23 -> Stop_14 (25.0 km) via [Stop_23 -> Stop_24 -> Stop_14]
+  Leg 08: Stop_14 -> Stop_04 (83.0 km) via [Stop_14 -> Stop_04]
+  Leg 09: Stop_04 -> Stop_06 (86.7 km) via [Stop_04 -> Stop_06]
+  Leg 10: Stop_06 -> Stop_13 (93.4 km) via [Stop_06 -> Stop_13]
+  Leg 11: Stop_13 -> Stop_15 (30.3 km) via [Stop_13 -> Stop_15]
+  Leg 12: Stop_15 -> Stop_20 (61.8 km) via [Stop_15 -> Stop_13 -> Stop_20]
+  Leg 13: Stop_20 -> Stop_01 (62.9 km) via [Stop_20 -> Stop_01]
+  Leg 14: Stop_01 -> Stop_12 (37.0 km) via [Stop_01 -> Stop_12]
+  Leg 15: Stop_12 -> Stop_03 (71.4 km) via [Stop_12 -> Stop_03]
+  Leg 16: Stop_03 -> Stop_11 (8.9 km) via [Stop_03 -> Stop_11]
+  Leg 17: Stop_11 -> Stop_05 (98.3 km) via [Stop_11 -> Stop_03 -> Stop_05]
+  Leg 18: Stop_05 -> Depot (139.4 km) via [Stop_05 -> Stop_03 -> Stop_11 -> Depot]
+Total Route Distance: 1067.10 km
+
+[PHASE 4] EXECUTION TIMINGS
+  Sorting: 0.1509 ms | Knapsack DP: 0.7449 ms | Dijkstra + TSP: 0.5087 ms | Total: 1.4045 ms
+==============================================================================

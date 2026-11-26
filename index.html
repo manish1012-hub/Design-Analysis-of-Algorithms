@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelligent Courier Planning System — DAA Capstone</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --panel-alt: #162033;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    main {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 22px 24px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .controls {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+      flex: 1;
+    }
+    label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    select, button {
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      padding: 0 12px;
+      font-size: 0.9rem;
+    }
+    button.primary {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 18px;
+    }
+    button.primary:hover { filter: brightness(1.08); }
+    button.secondary {
+      background: var(--panel-alt);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 38px;
+      font-size: 0.9rem;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+    .kpi {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+    .kpi .label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .kpi .val {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--accent);
+    }
+    .kpi .sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 980px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      overflow: hidden;
+    }
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h2 span.subtag {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    svg#network-svg {
+      width: 100%;
+      height: 410px;
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .table-wrap {
+      max-height: 390px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+    th {
+      background: #131c2e;
+      color: var(--muted);
+      position: sticky;
+      top: 0;
+      font-weight: 600;
+    }
+    .pill-packed {
+      background: rgba(34, 197, 94, 0.16);
+      color: var(--green);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .pill-deferred {
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .route-seq {
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.86rem;
+      color: #7dd3fc;
+      margin-bottom: 12px;
+      overflow-x: auto;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+      gap: 16px;
+    }
+    .chart-box {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+    }
+    .chart-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Intelligent Courier Planning System</h1>
+      <p>DAA Capstone Prototype — Sorting, 0/1 Knapsack DP, Dijkstra Shortest Paths &amp; Nearest-Neighbor TSP (+ 2-Opt)</p>
+    </div>
+    <span class="badge" id="status-badge">Ready</span>
+  </header>
+
+  <main>
+    <section class="controls">
+      <div class="control-group">
+        <label for="dataset-select">Scenario Dataset</label>
+        <select id="dataset-select">
+          <option value="small">Small Demo (12 Parcels, 8 Stops)</option>
+          <option value="medium">Medium City (80 Parcels, 25 Stops)</option>
+          <option value="large">Large Metro (250 Parcels, 60 Stops)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="sort-select">Phase 2A: Sorting Algorithm</label>
+        <select id="sort-select">
+          <option value="merge_sort">Merge Sort O(n log n)</option>
+          <option value="quick_sort">Quick Sort O(n log n)</option>
+          <option value="insertion_sort">Insertion Sort O(n^2)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="pack-select">Phase 2B: Box Filling</label>
+        <select id="pack-select">
+          <option value="knapsack_2d">0/1 Knapsack (2D DP)</option>
+          <option value="knapsack_1d">0/1 Knapsack (1D Space-Opt DP)</option>
+          <option value="knapsack_greedy">Greedy Value/Weight Heuristic</option>
+        </select>
+      </div>
+      <div class="control-group" style="min-width: 150px; flex: 0.7;">
+        <label>Phase 3: Optimization</label>
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="two-opt-check" checked />
+          <span>Enable 2-Opt Refinement</span>
+        </div>
+      </div>
+      <button class="primary" id="run-btn">Run Courier Planner</button>
+      <button class="secondary" id="bench-btn">Re-run Benchmarks</button>
+    </section>
+
+    <section class="kpis">
+      <div class="kpi">
+        <div class="label">Packed Parcels</div>
+        <div class="val" id="kpi-parcels">—</div>
+        <div class="sub" id="kpi-parcels-sub">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Capacity Utilization</div>
+        <div class="val" id="kpi-weight">—</div>
+        <div class="sub" id="kpi-weight-sub">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Total Packed Value</div>
+        <div class="val" id="kpi-value">—</div>
+        <div class="sub" id="kpi-value-sub">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Total Route Distance</div>
+        <div class="val" id="kpi-dist">—</div>
+        <div class="sub" id="kpi-dist-sub">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Pipeline Runtime</div>
+        <div class="val" id="kpi-time">—</div>
+        <div class="sub" id="kpi-time-sub">—</div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>Phase 3: Customer Network &amp; Delivery Route <span class="subtag" id="graph-meta">—</span></h2>
+        <svg id="network-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="legend">
+          <span><span class="dot" style="background:#f59e0b;"></span>Depot</span>
+          <span><span class="dot" style="background:#22c55e;"></span>Selected Delivery Stop</span>
+          <span><span class="dot" style="background:#64748b;"></span>Other Node</span>
+          <span><span class="dot" style="background:#38bdf8;"></span>Active TSP Route Path</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Phase 2A &amp; 2B: Prioritized Parcels <span class="subtag" id="pack-meta">—</span></h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>ID</th>
+                <th>Destination</th>
+                <th>Wt</th>
+                <th>Value</th>
+                <th>Deadline</th>
+                <th>Prio</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="parcels-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>Phase 3: Ordered Delivery Legs <span class="subtag" id="route-algo-label">—</span></h2>
+        <div class="route-seq" id="route-sequence">—</div>
+        <div class="table-wrap" style="max-height: 310px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Leg</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Dist (km)</th>
+                <th>Dijkstra Road Path</th>
+              </tr>
+            </thead>
+            <tbody id="legs-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Phase 2B: DP Table Preview <span class="subtag" id="dp-meta">—</span></h2>
+        <div class="table-wrap" style="max-height: 360px;">
+          <table id="dp-table"></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Phase 4: Performance Scaling &amp; Optimization Charts <span class="subtag">Generated via Matplotlib</span></h2>
+      <div class="charts-grid" id="charts-grid">
+        <div class="chart-box"><img src="/charts/sorting_runtime.png" alt="Sorting Runtime Comparison" /></div>
+        <div class="chart-box"><img src="/charts/knapsack_comparison.png" alt="Knapsack Comparison" /></div>
+        <div class="chart-box"><img src="/charts/routing_optimization.png" alt="Routing Optimization" /></div>
+        <div class="chart-box"><img src="/charts/pipeline_breakdown.png" alt="Pipeline Runtime Breakdown" /></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function renderGraph(data) {
+      const svg = $("network-svg");
+      svg.innerHTML = "";
+      const posMap = {};
+      data.graph.nodes.forEach((n) => { posMap[n.id] = n; });
+
+      const activeStops = new Set(data.route.stop_sequence);
+
+      // Base road edges
+      data.graph.edges.forEach((e) => {
+        const a = posMap[e.u];
+        const b = posMap[e.v];
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", a.x);
+        line.setAttribute("y1", a.y);
+        line.setAttribute("x2", b.x);
+        line.setAttribute("y2", b.y);
+        line.setAttribute("stroke", "#334155");
+        line.setAttribute("stroke-width", "0.45");
+        svg.appendChild(line);
+      });
+
+      // Highlighted Dijkstra road segments along the TSP legs
+      data.route.legs.forEach((leg) => {
+        for (let i = 0; i < leg.path.length - 1; i++) {
+          const a = posMap[leg.path[i]];
+          const b = posMap[leg.path[i + 1]];
+          if (!a || !b) continue;
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", a.x);
+          line.setAttribute("y1", a.y);
+          line.setAttribute("x2", b.x);
+          line.setAttribute("y2", b.y);
+          line.setAttribute("stroke", "#38bdf8");
+          line.setAttribute("stroke-width", "1.1");
+          line.setAttribute("stroke-opacity", "0.85");
+          svg.appendChild(line);
+        }
+      });
+
+      // Nodes
+      const showLabels = data.graph.node_count <= 30;
+      data.graph.nodes.forEach((n) => {
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", n.x);
+        circle.setAttribute("cy", n.y);
+        const radius = n.is_depot ? "2.6" : (activeStops.has(n.id) ? "1.9" : "1.25");
+        circle.setAttribute("r", radius);
+        circle.setAttribute("fill", n.is_depot ? "#f59e0b" : (activeStops.has(n.id) ? "#22c55e" : "#64748b"));
+        circle.setAttribute("stroke", "#0f172a");
+        circle.setAttribute("stroke-width", "0.45");
+        g.appendChild(circle);
+
+        if (showLabels || n.is_depot || activeStops.has(n.id)) {
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", n.x);
+          text.setAttribute("y", n.y - 2.6);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("fill", n.is_depot ? "#fde68a" : "#e2e8f0");
+          text.setAttribute("font-size", data.graph.node_count <= 12 ? "2.8" : "2.1");
+          text.textContent = n.id;
+          g.appendChild(text);
+        }
+        svg.appendChild(g);
+      });
+    }
+
+    function renderDPTable(dpPreview) {
+      const table = $("dp-table");
+      if (!dpPreview) {
+        $("dp-meta").textContent = "Available with 2D DP mode";
+        table.innerHTML = "<tbody><tr><td style='color:#94a3b8;padding:16px;'>Select '0/1 Knapsack (2D DP)' to inspect the dynamic programming matrix.</td></tr></tbody>";
+        return;
+      }
+      $("dp-meta").textContent = `Showing ${dpPreview.rows.length}/${dpPreview.total_rows} rows, ${dpPreview.shown_cols}/${dpPreview.total_cols} capacity cols`;
+      let head = "<thead><tr><th>Item\\W</th>";
+      for (let c = 0; c < dpPreview.shown_cols; c++) head += `<th>${c}</th>`;
+      if (dpPreview.shown_cols < dpPreview.total_cols) head += `<th>… ${dpPreview.total_cols - 1}</th>`;
+      head += "</tr></thead>";
+
+      let body = "<tbody>";
+      dpPreview.rows.forEach((r) => {
+        body += `<tr><td><strong>${r.label}</strong></td>`;
+        r.values.forEach((v) => { body += `<td>${v}</td>`; });
+        if (dpPreview.shown_cols < dpPreview.total_cols) body += `<td><strong>${r.final_cap_value}</strong></td>`;
+        body += "</tr>";
+      });
+      body += "</tbody>";
+      table.innerHTML = head + body;
+    }
+
+    async function loadPlan() {
+      $("status-badge").textContent = "Running...";
+      const params = new URLSearchParams({
+        dataset: $("dataset-select").value,
+        sort_algo: $("sort-select").value,
+        pack_algo: $("pack-select").value,
+        two_opt: $("two-opt-check").checked ? "true" : "false",
+      });
+      const res = await fetch(`/api/plan?${params.toString()}`);
+      const data = await res.json();
+      if (data.error) {
+        $("status-badge").textContent = "Error";
+        alert(data.error);
+        return;
+      }
+
+      $("kpi-parcels").textContent = `${data.packing.selected_count} / ${data.parcels_total}`;
+      $("kpi-parcels-sub").textContent = `${data.packing.excluded_count} deferred`;
+      $("kpi-weight").textContent = `${data.packing.utilization_pct}%`;
+      $("kpi-weight-sub").textContent = `${data.packing.total_weight} / ${data.capacity} kg`;
+      $("kpi-value").textContent = `$${data.packing.total_value}`;
+      $("kpi-value-sub").textContent = data.packing.algorithm;
+      $("kpi-dist").textContent = `${data.route.total_distance} km`;
+      $("kpi-dist-sub").textContent = `${data.route.legs.length} delivery legs`;
+      $("kpi-time").textContent = `${data.timings_ms.total_ms} ms`;
+      $("kpi-time-sub").textContent = `Sort ${data.timings_ms.sorting_ms} | DP ${data.timings_ms.knapsack_ms} | Route ${data.timings_ms.routing_ms}`;
+
+      $("graph-meta").textContent = `${data.graph.node_count} nodes, ${data.graph.edge_count} roads`;
+      $("pack-meta").textContent = data.dataset_name;
+      $("route-algo-label").textContent = data.route.algorithm;
+      $("route-sequence").textContent = data.route.stop_sequence.join(" → ");
+
+      $("parcels-tbody").innerHTML = data.prioritized_parcels
+        .map((p) => `
+          <tr>
+            <td>${p.rank}</td>
+            <td><strong>${p.parcel_id}</strong></td>
+            <td>${p.destination}</td>
+            <td>${p.weight} kg</td>
+            <td>$${p.value}</td>
+            <td>${p.deadline_hours}h</td>
+            <td>P${p.priority}</td>
+            <td>${p.selected ? '<span class="pill-packed">PACKED</span>' : '<span class="pill-deferred">DEFERRED</span>'}</td>
+          </tr>
+        `)
+        .join("");
+
+      $("legs-tbody").innerHTML = data.route.legs
+        .map((l) => `
+          <tr>
+            <td>${l.leg_no}</td>
+            <td>${l.start}</td>
+            <td>${l.end}</td>
+            <td>${l.distance}</td>
+            <td>${l.path.join(" → ")}</td>
+          </tr>
+        `)
+        .join("");
+
+      renderGraph(data);
+      renderDPTable(data.packing.dp_preview);
+      $("status-badge").textContent = "Live";
+    }
+
+    async function rerunBenchmarks() {
+      $("status-badge").textContent = "Benchmarking...";
+      const res = await fetch("/api/benchmarks/run", { method: "POST" });
+      if (res.ok) {
+        const ts = Date.now();
+        document.querySelectorAll("#charts-grid img").forEach((img) => {
+          const base = img.src.split("?")[0];
+          img.src = `${base}?t=${ts}`;
+        });
+        $("status-badge").textContent = "Benchmarks Updated";
+      } else {
+        $("status-badge").textContent = "Benchmark Error";
+      }
+    }
+
+    $("run-btn").addEventListener("click", loadPlan);
+    $("bench-btn").addEventListener("click", rerunBenchmarks);
+    $("dataset-select").addEventListener("change", loadPlan);
+    $("sort-select").addEventListener("change", loadPlan);
+    $("pack-select").addEventListener("change", loadPlan);
+    $("two-opt-check").addEventListener("change", loadPlan);
+
+    loadPlan();
+  </script>
+</body>
+</html>

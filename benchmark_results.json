@@ -1,0 +1,205 @@
+{
+  "sorting": [
+    {
+      "n_parcels": 25,
+      "merge_sort_ms": 0.049,
+      "quick_sort_ms": 0.0212,
+      "insertion_sort_ms": 0.02
+    },
+    {
+      "n_parcels": 50,
+      "merge_sort_ms": 0.1058,
+      "quick_sort_ms": 0.0409,
+      "insertion_sort_ms": 0.0713
+    },
+    {
+      "n_parcels": 100,
+      "merge_sort_ms": 0.1895,
+      "quick_sort_ms": 0.0675,
+      "insertion_sort_ms": 0.174
+    },
+    {
+      "n_parcels": 250,
+      "merge_sort_ms": 0.581,
+      "quick_sort_ms": 0.2018,
+      "insertion_sort_ms": 1.0559
+    },
+    {
+      "n_parcels": 500,
+      "merge_sort_ms": 1.2699,
+      "quick_sort_ms": 0.4531,
+      "insertion_sort_ms": 4.3342
+    },
+    {
+      "n_parcels": 1000,
+      "merge_sort_ms": 2.7963,
+      "quick_sort_ms": 0.9367,
+      "insertion_sort_ms": 19.5303
+    },
+    {
+      "n_parcels": 2000,
+      "merge_sort_ms": 6.1543,
+      "quick_sort_ms": 2.051,
+      "insertion_sort_ms": 78.616
+    }
+  ],
+  "knapsack": [
+    {
+      "n_parcels": 10,
+      "capacity": 30,
+      "dp_2d_ms": 0.0374,
+      "dp_1d_ms": 0.0195,
+      "greedy_ms": 0.0057,
+      "dp_optimal_value": 1410,
+      "greedy_value": 1410,
+      "greedy_optimality_gap_pct": 0.0
+    },
+    {
+      "n_parcels": 25,
+      "capacity": 60,
+      "dp_2d_ms": 0.1298,
+      "dp_1d_ms": 0.0724,
+      "greedy_ms": 0.0082,
+      "dp_optimal_value": 2532,
+      "greedy_value": 2532,
+      "greedy_optimality_gap_pct": 0.0
+    },
+    {
+      "n_parcels": 50,
+      "capacity": 120,
+      "dp_2d_ms": 0.4868,
+      "dp_1d_ms": 0.3025,
+      "greedy_ms": 0.015,
+      "dp_optimal_value": 4729,
+      "greedy_value": 4729,
+      "greedy_optimality_gap_pct": 0.0
+    },
+    {
+      "n_parcels": 100,
+      "capacity": 200,
+      "dp_2d_ms": 1.6109,
+      "dp_1d_ms": 0.9555,
+      "greedy_ms": 0.03,
+      "dp_optimal_value": 8086,
+      "greedy_value": 8086,
+      "greedy_optimality_gap_pct": 0.0
+    },
+    {
+      "n_parcels": 200,
+      "capacity": 350,
+      "dp_2d_ms": 5.8108,
+      "dp_1d_ms": 3.5237,
+      "greedy_ms": 0.0642,
+      "dp_optimal_value": 14937,
+      "greedy_value": 14937,
+      "greedy_optimality_gap_pct": 0.0
+    },
+    {
+      "n_parcels": 300,
+      "capacity": 500,
+      "dp_2d_ms": 13.6256,
+      "dp_1d_ms": 7.8339,
+      "greedy_ms": 0.103,
+      "dp_optimal_value": 21446,
+      "greedy_value": 21446,
+      "greedy_optimality_gap_pct": 0.0
+    }
+  ],
+  "routing": [
+    {
+      "n_nodes": 8,
+      "n_edges": 15,
+      "nn_tsp_ms": 0.0841,
+      "nn_two_opt_ms": 0.0697,
+      "nn_distance": 429.9,
+      "two_opt_distance": 429.9,
+      "distance_improvement_pct": 0.0
+    },
+    {
+      "n_nodes": 15,
+      "n_edges": 29,
+      "nn_tsp_ms": 0.2273,
+      "nn_two_opt_ms": 0.2845,
+      "nn_distance": 799.5,
+      "two_opt_distance": 652.7,
+      "distance_improvement_pct": 18.36
+    },
+    {
+      "n_nodes": 25,
+      "n_edges": 49,
+      "nn_tsp_ms": 0.6742,
+      "nn_two_opt_ms": 0.8416,
+      "nn_distance": 1420.3,
+      "two_opt_distance": 1267.1,
+      "distance_improvement_pct": 10.79
+    },
+    {
+      "n_nodes": 45,
+      "n_edges": 89,
+      "nn_tsp_ms": 2.3213,
+      "nn_two_opt_ms": 2.6874,
+      "nn_distance": 3172.2,
+      "two_opt_distance": 2978.1,
+      "distance_improvement_pct": 6.12
+    },
+    {
+      "n_nodes": 70,
+      "n_edges": 139,
+      "nn_tsp_ms": 5.6926,
+      "nn_two_opt_ms": 7.239,
+      "nn_distance": 5000.5,
+      "two_opt_distance": 4437.3,
+      "distance_improvement_pct": 11.26
+    },
+    {
+      "n_nodes": 100,
+      "n_edges": 199,
+      "nn_tsp_ms": 12.2267,
+      "nn_two_opt_ms": 15.5716,
+      "nn_distance": 7171.8,
+      "two_opt_distance": 6308.0,
+      "distance_improvement_pct": 12.04
+    }
+  ],
+  "pipeline": [
+    {
+      "scenario": "Small (12 parcels, 8 nodes)",
+      "n_parcels": 12,
+      "n_nodes": 8,
+      "capacity": 30,
+      "selected_count": 7,
+      "total_value": 1102,
+      "route_distance": 186.8,
+      "sorting_ms": 0.0185,
+      "knapsack_ms": 0.0368,
+      "routing_ms": 0.0356,
+      "total_ms": 0.0909
+    },
+    {
+      "scenario": "Medium (80 parcels, 25 nodes)",
+      "n_parcels": 80,
+      "n_nodes": 25,
+      "capacity": 120,
+      "selected_count": 19,
+      "total_value": 4907,
+      "route_distance": 1173.6,
+      "sorting_ms": 0.1493,
+      "knapsack_ms": 0.7853,
+      "routing_ms": 0.3903,
+      "total_ms": 1.325
+    },
+    {
+      "scenario": "Large (250 parcels, 60 nodes)",
+      "n_parcels": 250,
+      "n_nodes": 60,
+      "capacity": 250,
+      "selected_count": 54,
+      "total_value": 11276,
+      "route_distance": 3024.8,
+      "sorting_ms": 0.5615,
+      "knapsack_ms": 5.0082,
+      "routing_ms": 3.1396,
+      "total_ms": 8.7093
+    }
+  ]
+}

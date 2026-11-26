@@ -1,0 +1,23 @@
+Category,Scale,Metric_A,Value_A,Metric_B,Value_B,Metric_C,Value_C
+Sorting,n=25,merge_sort_ms,0.049,quick_sort_ms,0.0212,insertion_sort_ms,0.02
+Sorting,n=50,merge_sort_ms,0.1058,quick_sort_ms,0.0409,insertion_sort_ms,0.0713
+Sorting,n=100,merge_sort_ms,0.1895,quick_sort_ms,0.0675,insertion_sort_ms,0.174
+Sorting,n=250,merge_sort_ms,0.581,quick_sort_ms,0.2018,insertion_sort_ms,1.0559
+Sorting,n=500,merge_sort_ms,1.2699,quick_sort_ms,0.4531,insertion_sort_ms,4.3342
+Sorting,n=1000,merge_sort_ms,2.7963,quick_sort_ms,0.9367,insertion_sort_ms,19.5303
+Sorting,n=2000,merge_sort_ms,6.1543,quick_sort_ms,2.051,insertion_sort_ms,78.616
+Knapsack,"n=10,W=30",dp_2d_ms,0.0374,dp_1d_ms,0.0195,greedy_gap_pct,0.0
+Knapsack,"n=25,W=60",dp_2d_ms,0.1298,dp_1d_ms,0.0724,greedy_gap_pct,0.0
+Knapsack,"n=50,W=120",dp_2d_ms,0.4868,dp_1d_ms,0.3025,greedy_gap_pct,0.0
+Knapsack,"n=100,W=200",dp_2d_ms,1.6109,dp_1d_ms,0.9555,greedy_gap_pct,0.0
+Knapsack,"n=200,W=350",dp_2d_ms,5.8108,dp_1d_ms,3.5237,greedy_gap_pct,0.0
+Knapsack,"n=300,W=500",dp_2d_ms,13.6256,dp_1d_ms,7.8339,greedy_gap_pct,0.0
+Routing,"V=8,E=15",nn_tsp_ms,0.0841,nn_two_opt_ms,0.0697,dist_improvement_pct,0.0
+Routing,"V=15,E=29",nn_tsp_ms,0.2273,nn_two_opt_ms,0.2845,dist_improvement_pct,18.36
+Routing,"V=25,E=49",nn_tsp_ms,0.6742,nn_two_opt_ms,0.8416,dist_improvement_pct,10.79
+Routing,"V=45,E=89",nn_tsp_ms,2.3213,nn_two_opt_ms,2.6874,dist_improvement_pct,6.12
+Routing,"V=70,E=139",nn_tsp_ms,5.6926,nn_two_opt_ms,7.239,dist_improvement_pct,11.26
+Routing,"V=100,E=199",nn_tsp_ms,12.2267,nn_two_opt_ms,15.5716,dist_improvement_pct,12.04
+Pipeline,"Small (12 parcels, 8 nodes)",sorting_ms,0.0185,knapsack_ms,0.0368,routing_ms,0.0356
+Pipeline,"Medium (80 parcels, 25 nodes)",sorting_ms,0.1493,knapsack_ms,0.7853,routing_ms,0.3903
+Pipeline,"Large (250 parcels, 60 nodes)",sorting_ms,0.5615,knapsack_ms,5.0082,routing_ms,3.1396

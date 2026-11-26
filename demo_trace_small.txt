@@ -1,0 +1,65 @@
+==============================================================================
+INTELLIGENT COURIER PLANNING SYSTEM — Small Metro Courier Demo (12 Parcels, 8 Delivery Points)
+==============================================================================
+
+[PHASE 2A] PARCEL PRIORITIZATION (Sorted by Deadline ASC, Priority DESC, Value/Kg DESC)
+Total Input Parcels: 12
+Rank  ID     Dest          Wt(kg)   Value  Deadline Priority
+--------------------------------------------------------------
+1     P007   Sector_B           2      60     2.0h        5
+2     P001   Sector_A           4      95     2.0h        5
+3     P005   Station            3      75     2.5h        4
+4     P003   Market_Hub         5     115     3.0h        5
+5     P012   Sector_B           6     140     3.5h        4
+6     P002   Tech_Park          7     160     4.0h        4
+7     P010   Station            5     110     4.5h        3
+8     P008   Tech_Park          9     195     5.0h        4
+9     P004   Campus             6     135     6.0h        3
+10    P011   Old_Town           3      65     6.0h        1
+11    P006   Old_Town           8     150     8.0h        2
+12    P009   Campus             4      85    10.0h        2
+
+[PHASE 2B] BOX FILLING & PACKAGE SELECTION (0/1 Knapsack (2D DP))
+Capacity: 25 kg | Used: 25 kg (100.0%) | Optimal Total Value: 595
+Selected Parcels (6): P007->Sector_B(2kg/$60), P001->Sector_A(4kg/$95), P005->Station(3kg/$75), P003->Market_Hub(5kg/$115), P012->Sector_B(6kg/$140), P010->Station(5kg/$110)
+Deferred Parcels (6): P002, P008, P004, P011, P006, P009
+
+[DP TABLE PREVIEW]
+Item\Cap |    0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 ...   25
+--------------------------------------------------------------------------------------------------------
+0 (init) |    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0 ...    0
+P007     |    0    0   60   60   60   60   60   60   60   60   60   60   60   60   60   60   60 ...   60
+P001     |    0    0   60   60   95   95  155  155  155  155  155  155  155  155  155  155  155 ...  155
+P005     |    0    0   60   75   95  135  155  170  170  230  230  230  230  230  230  230  230 ...  230
+P003     |    0    0   60   75   95  135  155  175  190  230  250  270  285  285  345  345  345 ...  345
+P012     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  485
+P002     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  585
+P010     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+P008     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+P004     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+P011     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+P006     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+P009     |    0    0   60   75   95  135  155  175  200  230  250  275  295  315  345  370  390 ...  595
+
+[PHASE 3] GRAPH PROCESSING & ROUTE OPTIMIZATION (Nearest-Neighbor TSP + 2-Opt Optimization)
+Customer Network: 8 nodes, 12 roads | Depot: Depot
+Shortest Paths from Depot (Dijkstra):
+  Depot -> Market_Hub :    6.5 km | Path: Depot -> Sector_A -> Market_Hub
+  Depot -> Sector_A   :    4.0 km | Path: Depot -> Sector_A
+  Depot -> Sector_B   :    7.5 km | Path: Depot -> Sector_A -> Sector_B
+  Depot -> Station    :    9.5 km | Path: Depot -> Sector_A -> Market_Hub -> Station
+
+Ordered Delivery Route Sequence:
+  Depot -> Sector_A -> Market_Hub -> Station -> Sector_B -> Depot
+
+Turn-by-Turn Road Segments:
+  Leg 01: Depot -> Sector_A (4.0 km) via [Depot -> Sector_A]
+  Leg 02: Sector_A -> Market_Hub (2.5 km) via [Sector_A -> Market_Hub]
+  Leg 03: Market_Hub -> Station (3.0 km) via [Market_Hub -> Station]
+  Leg 04: Station -> Sector_B (9.0 km) via [Station -> Market_Hub -> Sector_A -> Sector_B]
+  Leg 05: Sector_B -> Depot (7.5 km) via [Sector_B -> Sector_A -> Depot]
+Total Route Distance: 26.00 km
+
+[PHASE 4] EXECUTION TIMINGS
+  Sorting: 0.0194 ms | Knapsack DP: 0.0345 ms | Dijkstra + TSP: 0.0670 ms | Total: 0.1210 ms
+==============================================================================
